@@ -458,6 +458,20 @@
             max-height: 70vh;
             object-fit: contain;
         }
+        .player-wrapper .vk-iframe-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+        .player-wrapper .vk-iframe-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
         .player-info {
             padding: 20px 28px;
         }
@@ -1136,7 +1150,45 @@
         }
 
         // ============================================================
-        //  RENDER: PLAYER
+        //  UTILITY: detect VK video URL and build embed iframe
+        // ============================================================
+        function isVkVideoUrl(url) {
+            if (!url) return false;
+            return /vkvideo\.ru\/video/i.test(url) || /vk\.com\/video/i.test(url);
+        }
+
+        function buildVkEmbedUrl(url) {
+            // Пример: https://vkvideo.ru/video-227316213_456239043
+            // или https://vk.com/video-227316213_456239043
+            // Парсим oid и id
+            let oid = null;
+            let id = null;
+
+            // Пробуем извлечь из URL
+            const match = url.match(/video-?(\d+)_(\d+)/);
+            if (match) {
+                oid = '-' + match[1];
+                id = match[2];
+            } else {
+                // Пробуем другой паттерн
+                const match2 = url.match(/video(\d+)_(\d+)/);
+                if (match2) {
+                    oid = match2[1];
+                    id = match2[2];
+                }
+            }
+
+            if (!oid || !id) {
+                // Если не удалось распарсить, пробуем использовать URL как есть
+                return url;
+            }
+
+            // Формируем iframe src для VK Video
+            return `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2`;
+        }
+
+        // ============================================================
+        //  RENDER: PLAYER (with VK support)
         // ============================================================
         function renderPlayer(data) {
             const { seriesId, seasonId, episodeId } = data;
@@ -1161,31 +1213,53 @@
             const seriesTitle = series.title || 'Сериал';
             const seasonNum = season.seasonNumber || '';
 
+            let playerHtml = '';
+
+            // Определяем, является ли ссылка видео ВК
+            if (isVkVideoUrl(videoUrl)) {
+                const embedSrc = buildVkEmbedUrl(videoUrl);
+                playerHtml = `
+                    <div class="vk-iframe-wrapper">
+                        <iframe src="${embedSrc}"
+                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                            frameborder="0"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                `;
+            } else {
+                // Обычное видео через тег <video>
+                playerHtml = `
+                    ${videoUrl ? `
+                        <video controls autoplay playsinline preload="metadata">
+                            <source src="${videoUrl}" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    ` : `
+                        <div style="aspect-ratio:16/9;background:#0a0a16;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#6a5a4a;">
+                            <div style="font-size:64px;">🎬</div>
+                            <p>Видео пока недоступно</p>
+                            <p style="font-size:13px;">Файл: ${escapeHtml(videoUrl || 'не указан')}</p>
+                        </div>
+                    `}
+                `;
+            }
+
             let html = `
-            <div class="player-wrapper">
-              ${videoUrl ? `
-                <video controls autoplay playsinline preload="metadata">
-                  <source src="${videoUrl}" type="video/mp4">
-                  Ваш браузер не поддерживает видео.
-                </video>
-              ` : `
-                <div style="aspect-ratio:16/9;background:#0a0a16;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#6a5a4a;">
-                  <div style="font-size:64px;">🎬</div>
-                  <p>Видео пока недоступно</p>
-                  <p style="font-size:13px;">Файл: ${escapeHtml(videoUrl || 'не указан')}</p>
+                <div class="player-wrapper">
+                    ${playerHtml}
+                    <div class="player-info">
+                        <h3>${escapeHtml(title)}</h3>
+                        <div class="sub">${escapeHtml(seriesTitle)} ${seasonNum ? `· Сезон ${seasonNum}` : ''}</div>
+                        ${episode.description ? `<div style="color:#a89988;margin-top:8px;font-size:15px;">${escapeHtml(episode.description)}</div>` : ''}
+                        ${isVkVideoUrl(videoUrl) ? `<div style="color:#6a5a4a;font-size:12px;margin-top:4px;">🎥 Видео из ВКонтакте</div>` : ''}
+                    </div>
                 </div>
-              `}
-              <div class="player-info">
-                <h3>${escapeHtml(title)}</h3>
-                <div class="sub">${escapeHtml(seriesTitle)} ${seasonNum ? `· Сезон ${seasonNum}` : ''}</div>
-                ${episode.description ? `<div style="color:#a89988;margin-top:8px;font-size:15px;">${escapeHtml(episode.description)}</div>` : ''}
-              </div>
-            </div>
-          `;
+            `;
 
             playerContainer.innerHTML = html;
 
-            // Auto-play
+            // Auto-play для обычного видео
             const video = playerContainer.querySelector('video');
             if (video) {
                 video.addEventListener('loadedmetadata', () => {
@@ -1322,6 +1396,7 @@
         console.log('🚀 Drumik Studio — пользовательский сайт загружен!');
         console.log('📺 Данные загружаются из Firebase Realtime Database.');
         console.log('📚 Для администрирования используйте admin.html');
+        console.log('🎥 Поддерживаются видео из ВКонтакте и обычные MP4.');
     </script>
 </body>
-  </html>
+</html>
