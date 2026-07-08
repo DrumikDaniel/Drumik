@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Drumik Animation Studio</title>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js">
     </script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js">
     </script>
 
     <style>
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -20,18 +18,18 @@
         }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #1a1a2e;
-            color: #f0e6d3;
+            background: radial-gradient(circle at 20% 30%, #1a0a2e, #0d0d1a);
+            color: #f0e6f5;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
         a {
-            color: #f7c948;
+            color: #e400fd;
             text-decoration: none;
         }
         a:hover {
-            color: #ffd966;
+            color: #ff66ff;
         }
         button {
             cursor: pointer;
@@ -50,30 +48,32 @@
             width: 100%;
         }
 
-        /* ===== SCROLLBAR ===== */
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #2a2a4a;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
-            background: #f7c948;
+            background: #e400fd;
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #ffd966;
+            background: #ff66ff;
         }
 
-        /* ===== HEADER ===== */
         .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 100%);
-            padding: 18px 0;
-            border-bottom: 3px solid #f7c948;
+            background: rgba(20, 10, 30, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(228, 0, 253, 0.2);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+            padding: 14px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
         .header-inner {
             display: flex;
@@ -88,24 +88,26 @@
             gap: 14px;
         }
         .logo-area img {
-            height: 52px;
+            height: 48px;
             width: auto;
-            border-radius: 12px;
-            background: #2d1b3d;
+            border-radius: 50%;
+            background: rgba(228, 0, 253, 0.15);
             padding: 4px;
             object-fit: contain;
+            box-shadow: 0 0 20px rgba(228, 0, 253, 0.2);
         }
         .logo-area .logo-text {
             font-size: 26px;
             font-weight: 800;
-            background: linear-gradient(135deg, #f7c948, #ff8a5c);
+            background: linear-gradient(135deg, #e400fd, #ff66ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
+            text-shadow: 0 0 40px rgba(228, 0, 253, 0.3);
         }
         .logo-area .logo-text span {
             font-weight: 300;
-            -webkit-text-fill-color: #f0e6d3;
+            -webkit-text-fill-color: #f0e6f5;
             background: none;
         }
         .nav-links {
@@ -114,49 +116,44 @@
             flex-wrap: wrap;
         }
         .nav-links a {
-            padding: 8px 20px;
+            padding: 8px 22px;
             border-radius: 30px;
             font-weight: 600;
             font-size: 15px;
             transition: all 0.3s;
-            color: #c4b5a5;
+            color: #c4b5d0;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid transparent;
+            backdrop-filter: blur(4px);
         }
         .nav-links a:hover,
         .nav-links a.active {
             color: #fff;
-            background: rgba(247, 201, 72, 0.18);
-            border-color: rgba(247, 201, 72, 0.3);
+            background: rgba(228, 0, 253, 0.2);
+            border-color: rgba(228, 0, 253, 0.4);
+            box-shadow: 0 0 20px rgba(228, 0, 253, 0.1);
         }
         .nav-links a.active {
-            background: #f7c948;
-            color: #1a1a2e;
-            border-color: #f7c948;
-        }
-        .nav-links a.active:hover {
-            background: #ffd966;
+            background: rgba(228, 0, 253, 0.25);
+            border-color: #e400fd;
         }
 
-        /* ===== MAIN ===== */
         .main {
             flex: 1;
             padding: 40px 0 60px;
         }
 
-        /* ===== VIEWS ===== */
         .view {
             display: none;
-            animation: fadeUp 0.4s ease;
+            animation: fadeUp 0.5s ease;
         }
         .view.active {
             display: block;
         }
-
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(24px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -164,75 +161,68 @@
             }
         }
 
-        /* ===== HERO ===== */
-        .hero {
-            background: linear-gradient(145deg, #2d1b3d, #1a1a2e);
-            border-radius: 28px;
-            padding: 48px 40px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(247, 201, 72, 0.15);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            text-align: center;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
         }
-        .hero h1 {
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #f7c948, #ff8a5c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            font-size: 18px;
-            color: #c4b5a5;
-            max-width: 640px;
-            margin: 0 auto;
-            line-height: 1.6;
+        .glass-card:hover {
+            border-color: rgba(228, 0, 253, 0.2);
+            box-shadow: 0 12px 48px rgba(228, 0, 253, 0.08);
         }
 
-        /* ===== SERIES GRID ===== */
         .section-title {
             font-size: 28px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(228, 0, 253, 0.15);
         }
-        .section-title span {
-            background: #f7c948;
-            width: 6px;
-            height: 32px;
-            border-radius: 4px;
+        .section-title .accent {
             display: inline-block;
+            width: 6px;
+            height: 34px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, #e400fd, #ff66ff);
+            box-shadow: 0 0 20px rgba(228, 0, 253, 0.4);
         }
+
         .series-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 28px;
         }
         .series-card {
-            background: #252540;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
             overflow: hidden;
-            transition: all 0.35s ease;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
             position: relative;
         }
         .series-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(247, 201, 72, 0.3);
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px) scale(1.01);
+            border-color: rgba(228, 0, 253, 0.3);
+            box-shadow: 0 16px 60px rgba(228, 0, 253, 0.12);
         }
         .series-card .poster {
             aspect-ratio: 2/3;
-            background: #1a1a2e;
+            background: rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 52px;
-            color: #f7c948;
+            color: #e400fd;
             overflow: hidden;
         }
         .series-card .poster img {
@@ -251,7 +241,7 @@
         }
         .series-card .info p {
             font-size: 14px;
-            color: #a89988;
+            color: #b0a0b8;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -262,24 +252,27 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background: rgba(247, 201, 72, 0.92);
-            color: #1a1a2e;
+            background: rgba(228, 0, 253, 0.85);
+            color: #fff;
             font-size: 12px;
             font-weight: 700;
             padding: 4px 14px;
             border-radius: 30px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* ===== SERIES DETAIL ===== */
         .series-detail-hero {
-            background: linear-gradient(145deg, #2d1b3d, #1a1a2e);
-            border-radius: 28px;
             padding: 32px 36px;
             margin-bottom: 32px;
-            border: 1px solid rgba(247, 201, 72, 0.1);
             display: flex;
             gap: 32px;
             flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
         .series-detail-hero .poster-large {
             width: 200px;
@@ -287,7 +280,7 @@
             aspect-ratio: 2/3;
             border-radius: 16px;
             overflow: hidden;
-            background: #1a1a2e;
+            background: rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
         }
         .series-detail-hero .poster-large img {
@@ -303,9 +296,12 @@
             font-size: 32px;
             font-weight: 800;
             margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff, #e400fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .series-detail-hero .info .desc {
-            color: #c4b5a5;
+            color: #c4b5d0;
             font-size: 16px;
             line-height: 1.6;
             margin-bottom: 16px;
@@ -315,34 +311,36 @@
             gap: 20px;
             flex-wrap: wrap;
             font-size: 14px;
-            color: #a89988;
+            color: #a899b0;
         }
         .series-detail-hero .info .meta span {
             display: flex;
             align-items: center;
             gap: 6px;
         }
+
         .back-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 20px;
+            padding: 8px 22px;
             border-radius: 30px;
-            background: rgba(255, 255, 255, 0.06);
-            color: #c4b5a5;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            color: #c4b5d0;
             font-weight: 600;
             font-size: 14px;
             transition: all 0.3s;
             margin-bottom: 16px;
-            border: 1px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
         .back-btn:hover {
-            background: rgba(247, 201, 72, 0.12);
+            background: rgba(228, 0, 253, 0.1);
             color: #fff;
-            border-color: rgba(247, 201, 72, 0.2);
+            border-color: rgba(228, 0, 253, 0.3);
         }
 
-        /* ===== SEASONS ===== */
         .season-block {
             margin-bottom: 32px;
         }
@@ -350,59 +348,132 @@
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 14px 20px;
-            background: #252540;
-            border-radius: 14px 14px 0 0;
-            border-bottom: 2px solid rgba(247, 201, 72, 0.15);
+            padding: 14px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 18px 18px 0 0;
+            border-bottom: 1px solid rgba(228, 0, 253, 0.1);
             cursor: pointer;
             transition: background 0.2s;
         }
         .season-block .season-header:hover {
-            background: #2d2d50;
+            background: rgba(255, 255, 255, 0.06);
         }
         .season-block .season-header h4 {
             font-size: 18px;
             font-weight: 700;
             flex: 1;
+            color: #fff;
         }
         .season-block .season-header .toggle-icon {
             font-size: 20px;
             transition: transform 0.3s;
-            color: #f7c948;
+            color: #e400fd;
         }
         .season-block .season-header .toggle-icon.open {
             transform: rotate(180deg);
         }
-        .season-block .episodes {
-            background: #1f1f38;
-            border-radius: 0 0 14px 14px;
+
+        .season-block .episodes-vertical {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 0 0 18px 18px;
             padding: 12px 0;
             overflow: hidden;
             max-height: 0;
             opacity: 0;
-            transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+            transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.4s ease;
             padding: 0 0;
         }
-        .season-block .episodes.open {
+        .season-block .episodes-vertical.open {
             max-height: 4000px;
             opacity: 1;
             padding: 12px 0 18px;
         }
+
+        .season-block .episodes-horizontal {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 0 0 18px 18px;
+            padding: 16px 20px;
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 12px;
+        }
+        .season-block .episodes-horizontal::-webkit-scrollbar {
+            height: 4px;
+        }
+        .season-block .episodes-horizontal::-webkit-scrollbar-thumb {
+            background: #e400fd;
+            border-radius: 10px;
+        }
+
+        .episode-horizontal-item {
+            flex: 0 0 160px;
+            scroll-snap-align: start;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-align: center;
+        }
+        .episode-horizontal-item:hover {
+            border-color: rgba(228, 0, 253, 0.3);
+            transform: scale(1.02);
+            background: rgba(228, 0, 253, 0.05);
+        }
+        .episode-horizontal-item .icon {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        .episode-horizontal-item .icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .episode-horizontal-item .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .episode-horizontal-item .num {
+            font-size: 11px;
+            color: #e400fd;
+            font-weight: 700;
+        }
+
         .episode-item {
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 10px;
             transition: background 0.2s;
             cursor: pointer;
         }
         .episode-item:hover {
-            background: rgba(247, 201, 72, 0.06);
+            background: rgba(228, 0, 253, 0.05);
         }
         .episode-item .num {
             font-weight: 700;
-            color: #f7c948;
+            color: #e400fd;
             font-size: 15px;
             min-width: 36px;
         }
@@ -415,7 +486,7 @@
         }
         .episode-item .info .desc {
             font-size: 13px;
-            color: #a89988;
+            color: #b0a0b8;
             display: -webkit-box;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
@@ -423,28 +494,31 @@
         }
         .episode-item .duration {
             font-size: 13px;
-            color: #887a6a;
+            color: #887a90;
             background: rgba(255, 255, 255, 0.04);
             padding: 2px 12px;
             border-radius: 30px;
         }
         .episode-item .play-btn {
-            background: #f7c948;
-            color: #1a1a2e;
+            background: #e400fd;
+            color: #fff;
             border-radius: 30px;
             padding: 4px 18px;
             font-weight: 700;
             font-size: 13px;
             transition: all 0.25s;
+            box-shadow: 0 0 20px rgba(228, 0, 253, 0.2);
         }
         .episode-item .play-btn:hover {
-            background: #ffd966;
+            background: #ff66ff;
             transform: scale(1.04);
+            box-shadow: 0 0 30px rgba(228, 0, 253, 0.3);
         }
 
-        /* ===== VIDEO PLAYER ===== */
         .player-wrapper {
-            background: #0f0f1a;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 28px;
             overflow: hidden;
             margin-bottom: 24px;
@@ -458,13 +532,13 @@
             max-height: 70vh;
             object-fit: contain;
         }
-        .player-wrapper .vk-iframe-wrapper {
+        .player-wrapper .iframe-wrapper {
             position: relative;
             width: 100%;
             aspect-ratio: 16/9;
             background: #000;
         }
-        .player-wrapper .vk-iframe-wrapper iframe {
+        .player-wrapper .iframe-wrapper iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -472,6 +546,41 @@
             height: 100%;
             border: 0;
         }
+
+        .player-controls {
+            padding: 16px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .player-controls .player-btn {
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: rgba(228, 0, 253, 0.15);
+            color: #e400fd;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 1px solid rgba(228, 0, 253, 0.2);
+        }
+        .player-controls .player-btn:hover {
+            background: rgba(228, 0, 253, 0.3);
+            color: #fff;
+        }
+        .player-controls .player-btn.active {
+            background: #e400fd;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(228, 0, 253, 0.3);
+        }
+        .player-controls .label {
+            font-size: 12px;
+            color: #6a5a70;
+            margin-right: 4px;
+        }
+
         .player-info {
             padding: 20px 28px;
         }
@@ -479,46 +588,49 @@
             font-size: 22px;
             font-weight: 700;
             margin-bottom: 4px;
+            color: #fff;
         }
         .player-info .sub {
-            color: #a89988;
+            color: #b0a0b8;
             font-size: 15px;
         }
 
-        /* ===== DRUMIK-PEDIA ===== */
         .pedia-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 24px;
         }
         .pedia-card {
-            background: #252540;
-            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
             padding: 24px 26px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             transition: all 0.3s;
             cursor: pointer;
         }
         .pedia-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(247, 201, 72, 0.2);
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+            border-color: rgba(228, 0, 253, 0.2);
+            box-shadow: 0 12px 40px rgba(228, 0, 253, 0.06);
         }
         .pedia-card .cat {
             font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: #f7c948;
+            color: #e400fd;
             margin-bottom: 6px;
         }
         .pedia-card h4 {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 8px;
+            color: #fff;
         }
         .pedia-card p {
-            color: #a89988;
+            color: #b0a0b8;
             font-size: 15px;
             line-height: 1.5;
             display: -webkit-box;
@@ -529,64 +641,174 @@
         .pedia-card .date {
             margin-top: 14px;
             font-size: 12px;
-            color: #6a5a4a;
+            color: #6a5a70;
         }
 
-        /* ===== PEDIA DETAIL ===== */
         .pedia-detail {
-            background: #252540;
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 28px;
             padding: 32px 36px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .pedia-detail .cat {
             font-size: 13px;
             font-weight: 700;
-            color: #f7c948;
+            color: #e400fd;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .pedia-detail h1,
+        .pedia-detail h2,
+        .pedia-detail h3,
+        .pedia-detail h4,
+        .pedia-detail h5,
+        .pedia-detail h6 {
+            margin: 16px 0 8px;
+            color: #fff;
+        }
+        .pedia-detail h1 {
+            font-size: 36px;
+        }
         .pedia-detail h2 {
-            font-size: 32px;
-            font-weight: 800;
-            margin: 8px 0 16px;
+            font-size: 30px;
+        }
+        .pedia-detail h3 {
+            font-size: 24px;
+        }
+        .pedia-detail h4 {
+            font-size: 20px;
+        }
+        .pedia-detail h5 {
+            font-size: 18px;
+        }
+        .pedia-detail h6 {
+            font-size: 16px;
         }
         .pedia-detail .content {
             font-size: 17px;
             line-height: 1.8;
-            color: #d4c8b8;
-            white-space: pre-wrap;
+            color: #d4c8d8;
         }
         .pedia-detail .content p {
             margin-bottom: 12px;
         }
-
-        /* ===== LOADING ===== */
-        .loader {
-            text-align: center;
-            padding: 60px 20px;
-            color: #a89988;
+        .pedia-detail .content img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin: 12px 0;
         }
-        .loader .spinner {
-            width: 48px;
-            height: 48px;
-            border: 4px solid rgba(247, 201, 72, 0.15);
-            border-top-color: #f7c948;
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
-            margin: 0 auto 20px;
+        .pedia-detail .content img.align-left {
+            float: left;
+            margin-right: 20px;
+            max-width: 40%;
         }
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .pedia-detail .content img.align-right {
+            float: right;
+            margin-left: 20px;
+            max-width: 40%;
+        }
+        .pedia-detail .content img.align-center {
+            margin: 12px auto;
+            display: block;
         }
 
-        /* ===== EMPTY STATE ===== */
+        .pedia-detail .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .pedia-detail .content table th,
+        .pedia-detail .content table td {
+            padding: 10px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+            vertical-align: middle;
+        }
+        .pedia-detail .content table th {
+            background: rgba(228, 0, 253, 0.1);
+            color: #e400fd;
+            font-weight: 700;
+        }
+        .pedia-detail .content table td {
+            color: #c4b5d0;
+        }
+        .pedia-detail .content table .rowspan {
+            background: rgba(228, 0, 253, 0.05);
+        }
+        .pedia-detail .content table .colspan {
+            background: rgba(228, 0, 253, 0.03);
+        }
+
+        .pedia-detail .content blockquote {
+            border-left: 4px solid #e400fd;
+            padding: 12px 20px;
+            margin: 12px 0;
+            background: rgba(228, 0, 253, 0.04);
+            border-radius: 0 12px 12px 0;
+            color: #c4b5d0;
+        }
+        .pedia-detail .content ul,
+        .pedia-detail .content ol {
+            padding-left: 24px;
+            margin: 8px 0 16px;
+        }
+        .pedia-detail .content ul li,
+        .pedia-detail .content ol li {
+            margin-bottom: 4px;
+        }
+        .pedia-detail .content .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .pedia-detail .content .gallery img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+        .pedia-detail .content .gallery img:hover {
+            transform: scale(1.02);
+        }
+        .pedia-detail .content .episode-link {
+            display: inline-block;
+            background: rgba(228, 0, 253, 0.1);
+            color: #e400fd;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 14px;
+            border: 1px solid rgba(228, 0, 253, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .pedia-detail .content .episode-link:hover {
+            background: rgba(228, 0, 253, 0.2);
+            color: #ff66ff;
+        }
+        .pedia-detail .content .highlight {
+            background: rgba(228, 0, 253, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .pedia-detail .content .chart-container {
+            margin: 16px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            max-height: 400px;
+        }
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #a89988;
+            color: #a899b0;
         }
         .empty-state .icon {
             font-size: 64px;
@@ -594,24 +816,64 @@
         }
         .empty-state h3 {
             font-size: 22px;
-            color: #f0e6d3;
+            color: #f0e6f5;
             margin-bottom: 8px;
         }
 
-        /* ===== FOOTER ===== */
         .footer {
-            background: #14142a;
-            padding: 24px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(10, 5, 20, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 20px 0;
+            border-top: 1px solid rgba(228, 0, 253, 0.05);
             text-align: center;
-            color: #6a5a4a;
+            color: #6a5a70;
             font-size: 14px;
         }
         .footer a {
-            color: #f7c948;
+            color: #e400fd;
         }
 
-        /* ===== RESPONSIVE ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 360px;
+            width: 100%;
+        }
+        .toast {
+            background: rgba(20, 10, 30, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 14px 22px;
+            border-radius: 14px;
+            border-left: 4px solid #e400fd;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            animation: slideInToast 0.4s ease;
+            color: #f0e6f5;
+            font-size: 15px;
+        }
+        .toast.error {
+            border-left-color: #ff4444;
+        }
+        .toast.success {
+            border-left-color: #44ff88;
+        }
+        @keyframes slideInToast {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         @media (max-width: 768px) {
             .header-inner {
                 flex-direction: column;
@@ -628,14 +890,8 @@
                 justify-content: center;
             }
             .nav-links a {
-                padding: 6px 14px;
+                padding: 6px 16px;
                 font-size: 13px;
-            }
-            .hero {
-                padding: 28px 20px;
-            }
-            .hero h1 {
-                font-size: 28px;
             }
             .series-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -659,8 +915,14 @@
             .pedia-detail {
                 padding: 20px;
             }
+            .pedia-detail h1 {
+                font-size: 28px;
+            }
             .pedia-detail h2 {
                 font-size: 24px;
+            }
+            .pedia-detail h3 {
+                font-size: 20px;
             }
             .player-info {
                 padding: 14px 16px;
@@ -678,6 +940,23 @@
             .section-title {
                 font-size: 22px;
             }
+            .episode-horizontal-item {
+                flex: 0 0 130px;
+            }
+            .player-controls {
+                padding: 12px 16px;
+            }
+            .player-controls .player-btn {
+                font-size: 12px;
+                padding: 4px 12px;
+            }
+            .pedia-detail .content table {
+                font-size: 14px;
+            }
+            .pedia-detail .content table th,
+            .pedia-detail .content table td {
+                padding: 6px 8px;
+            }
         }
         @media (max-width: 480px) {
             .series-grid {
@@ -694,123 +973,57 @@
                 font-size: 12px;
                 -webkit-line-clamp: 1;
             }
-        }
-
-        /* ===== TOAST ===== */
-        .toast-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 360px;
-            width: 100%;
-        }
-        .toast {
-            background: #2d2d50;
-            padding: 14px 22px;
-            border-radius: 14px;
-            border-left: 4px solid #f7c948;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-            animation: slideInToast 0.35s ease;
-            color: #f0e6d3;
-            font-size: 15px;
-        }
-        .toast.error {
-            border-left-color: #e74c3c;
-        }
-        .toast.success {
-            border-left-color: #2ecc71;
-        }
-        @keyframes slideInToast {
-            from {
-                opacity: 0;
-                transform: translateX(60px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
+            .episode-horizontal-item {
+                flex: 0 0 110px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
     <header class="header">
         <div class="container header-inner">
             <div class="logo-area">
-                <!-- Logo будет подставлен через GitHub — замените URL на свой -->
-                <img src="https://raw.githubusercontent.com/your-username/your-repo/main/logo.png"
-                alt="Drumik Logo"
-                onerror="this.style.display='none'"
-                id="logoImg" />
+                <img src="https://github.com/DrumikDaniel/Drumik/blob/main/logo.png?raw=true" alt="Drumik Logo" id="logoImg" />
                 <div class="logo-text">Drumik<span>Studio</span></div>
             </div>
             <nav class="nav-links">
-                <a href="#home" class="active" data-view="home">Главная</a>
-                <a href="#series" data-view="series">Сериалы</a>
+                <a href="#series" class="active" data-view="series">Сериалы</a>
                 <a href="#pedia" data-view="pedia">Drumik-педия</a>
             </nav>
         </div>
     </header>
 
-    <!-- ===== MAIN ===== -->
     <main class="main">
         <div class="container">
 
-            <!-- VIEW: HOME -->
-            <div id="view-home" class="view active">
-                <div class="hero">
-                    <h1>🎬 Добро пожаловать в Drumik!</h1>
-                    <p>Смотрите все мультфильмы студии DRUMIK. Погружайтесь в мир приключений, юмора и добрых историй!</p>
-                </div>
-                <div class="section-title"><span></span> Все сериалы</div>
-                <div id="homeSeriesGrid" class="series-grid">
-                    <!-- рендерится из JS -->
-                </div>
+            <div id="view-series" class="view active">
+                <div class="section-title"><span class="accent"></span> Все сериалы</div>
+                <div id="homeSeriesGrid" class="series-grid"></div>
+                <div id="seriesDetailContainer" style="display:none;"></div>
             </div>
 
-            <!-- VIEW: SERIES DETAIL -->
-            <div id="view-series" class="view">
-                <button class="back-btn" id="seriesBackBtn">← Назад к сериалам</button>
-                <div id="seriesDetailContainer"></div>
-            </div>
-
-            <!-- VIEW: VIDEO PLAYER -->
             <div id="view-player" class="view">
                 <button class="back-btn" id="playerBackBtn">← Назад к сериалу</button>
                 <div id="playerContainer"></div>
             </div>
 
-            <!-- VIEW: DRUMIK-PEDIA -->
             <div id="view-pedia" class="view">
-                <div class="section-title"><span></span> Drumik-педия</div>
-                <div id="pediaList" class="pedia-grid">
-                    <!-- рендерится из JS -->
-                </div>
+                <div class="section-title"><span class="accent"></span> Drumik-педия</div>
+                <div id="pediaList" class="pedia-grid"></div>
                 <div id="pediaDetail" style="display:none;"></div>
             </div>
 
         </div>
     </main>
 
-    <!-- ===== FOOTER ===== -->
     <footer class="footer">
-        <div class="container">
-            &copy; 2026 Drumik Animation Studio. Все права защищены.
-        </div>
+        <div class="container">&copy; 2026 Drumik Animation Studio. Все права защищены.</div>
     </footer>
 
-    <!-- ===== TOAST CONTAINER ===== -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // ============================================================
-        //  FIREBASE CONFIG
-        // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCWCG3HBUOLF9GCRUqtdFFbUk4eC3LIn_8",
             authDomain: "video-hosting-a2ccf.firebaseapp.com",
@@ -825,27 +1038,23 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // ============================================================
-        //  STATE
-        // ============================================================
         const state = {
-            currentView: 'home',
-            series: {}, // { id: { title, description, poster, seasons: { ... } } }
-            articles: {}, // { id: { title, content, category, createdAt, updatedAt } }
+            currentView: 'series',
+            series: {},
+            articles: {},
             selectedSeriesId: null,
-            selectedSeasonId: null,
-            selectedEpisodeId: null,
-            playerData: null, // { seriesId, seasonId, episodeId }
+            playerData: null,
+            currentPlayerIndex: 0,
+            currentQuality: 'auto',
+            _players: [],
+            _qualities: [],
+            _episodeData: null,
         };
 
-        // ============================================================
-        //  DOM REFS
-        // ============================================================
         const $ = (s) => document.querySelector(s);
         const $$ = (s) => document.querySelectorAll(s);
 
         const views = {
-            home: $('#view-home'),
             series: $('#view-series'),
             player: $('#view-player'),
             pedia: $('#view-pedia'),
@@ -858,9 +1067,6 @@
         const pediaDetail = $('#pediaDetail');
         const toastContainer = $('#toastContainer');
 
-        // ============================================================
-        //  TOAST
-        // ============================================================
         function showToast(message, type = 'info') {
             const el = document.createElement('div');
             el.className = `toast ${type}`;
@@ -873,103 +1079,82 @@
             }, 3500);
         }
 
-        // ============================================================
-        //  NAVIGATION
-        // ============================================================
         function navigateTo(view, data) {
-            // Hide all views
             Object.values(views).forEach(v => v.classList.remove('active'));
-            // Show target
             const target = views[view];
             if (target) target.classList.add('active');
 
-            // Update nav links
             navLinks.forEach(a => {
                 a.classList.toggle('active', a.dataset.view === view);
             });
 
             state.currentView = view;
 
-            // Route logic
-            if (view === 'home') {
-                renderHome();
-            } else if (view === 'series' && data && data.seriesId) {
-                state.selectedSeriesId = data.seriesId;
-                renderSeriesDetail(data.seriesId);
+            if (view === 'series') {
+                if (data && data.seriesId) {
+                    state.selectedSeriesId = data.seriesId;
+                    renderSeriesDetail(data.seriesId);
+                    homeGrid.style.display = 'none';
+                    seriesDetailContainer.style.display = 'block';
+                } else {
+                    homeGrid.style.display = 'grid';
+                    seriesDetailContainer.style.display = 'none';
+                    renderHome();
+                }
             } else if (view === 'player' && data) {
                 state.playerData = data;
+                state.currentPlayerIndex = 0;
+                state.currentQuality = 'auto';
                 renderPlayer(data);
             } else if (view === 'pedia') {
                 renderPediaList();
                 pediaDetail.style.display = 'none';
             }
 
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Nav click
         navLinks.forEach(a => {
             a.addEventListener('click', (e) => {
                 e.preventDefault();
                 const view = a.dataset.view;
-                if (view === 'home') navigateTo('home');
-                else if (view === 'pedia') navigateTo('pedia');
-                else if (view === 'series') {
-                    // Если мы уже на сериале — показываем список
-                    if (state.currentView === 'series' && state.selectedSeriesId) {
-                        // переключаем на домашнюю с сериалами
-                        navigateTo('home');
-                    } else {
-                        navigateTo('home');
-                    }
+                if (view === 'series') {
+                    navigateTo('series');
+                } else if (view === 'pedia') {
+                    navigateTo('pedia');
                 }
             });
         });
 
-        // Back buttons
-        $('#seriesBackBtn').addEventListener('click', () => navigateTo('home'));
         $('#playerBackBtn').addEventListener('click', () => {
             if (state.selectedSeriesId) {
                 navigateTo('series', { seriesId: state.selectedSeriesId });
             } else {
-                navigateTo('home');
+                navigateTo('series');
             }
         });
 
-        // ============================================================
-        //  DATA LOADING
-        // ============================================================
         function loadData() {
-            // Load series
             db.ref('series').on('value', (snap) => {
                 state.series = snap.val() || {};
-                if (state.currentView === 'home') renderHome();
-                if (state.currentView === 'series' && state.selectedSeriesId) {
+                if (state.currentView === 'series' && !state.selectedSeriesId) {
+                    renderHome();
+                } else if (state.currentView === 'series' && state.selectedSeriesId) {
                     renderSeriesDetail(state.selectedSeriesId);
                 }
             });
 
-            // Load articles
             db.ref('articles').on('value', (snap) => {
                 state.articles = snap.val() || {};
                 if (state.currentView === 'pedia') renderPediaList();
             });
         }
 
-        // ============================================================
-        //  RENDER: HOME
-        // ============================================================
         function renderHome() {
             const ids = Object.keys(state.series);
             if (ids.length === 0) {
-                homeGrid.innerHTML = `
-              <div class="empty-state" style="grid-column:1/-1">
-                <div class="icon">🎞️</div>
-                <h3>Пока нет сериалов</h3>
-                <p>Скоро здесь появятся новые мультфильмы!</p>
-              </div>
-            `;
+                homeGrid.innerHTML =
+                    `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🎞️</div><h3>Пока нет сериалов</h3><p>Скоро здесь появятся новые мультфильмы!</p></div>`;
                 return;
             }
 
@@ -979,21 +1164,20 @@
                 const seasonCount = s.seasons ? Object.keys(s.seasons).length : 0;
                 const posterUrl = s.poster || '';
                 html += `
-              <div class="series-card" data-id="${id}">
-                <div class="poster">
-                  ${posterUrl ? `<img src="${posterUrl}" alt="${s.title}" loading="lazy" onerror="this.parentElement.innerHTML='🎬'">` : '🎬'}
-                </div>
-                <div class="info">
-                  <h3>${escapeHtml(s.title || 'Без названия')}</h3>
-                  <p>${escapeHtml(s.description || '')}</p>
-                </div>
-                ${seasonCount > 0 ? `<div class="badge">${seasonCount} сезона</div>` : ''}
-              </div>
-            `;
+                    <div class="series-card" data-id="${id}">
+                        <div class="poster">
+                            ${posterUrl ? `<img src="${posterUrl}" alt="${s.title}" loading="lazy" onerror="this.parentElement.innerHTML='🎬'">` : '🎬'}
+                        </div>
+                        <div class="info">
+                            <h3>${escapeHtml(s.title || 'Без названия')}</h3>
+                            <p>${escapeHtml(s.description || '')}</p>
+                        </div>
+                        ${seasonCount > 0 ? `<div class="badge">${seasonCount} сезона</div>` : ''}
+                    </div>
+                `;
             }
             homeGrid.innerHTML = html;
 
-            // Click on card -> open series detail
             homeGrid.querySelectorAll('.series-card').forEach(el => {
                 el.addEventListener('click', () => {
                     const id = el.dataset.id;
@@ -1002,24 +1186,18 @@
             });
         }
 
-        // ============================================================
-        //  RENDER: SERIES DETAIL
-        // ============================================================
         function renderSeriesDetail(seriesId) {
             const s = state.series[seriesId];
             if (!s) {
-                seriesDetailContainer.innerHTML = `
-              <div class="empty-state">
-                <div class="icon">😕</div>
-                <h3>Сериал не найден</h3>
-              </div>
-            `;
+                seriesDetailContainer.innerHTML =
+                    `<div class="empty-state"><div class="icon">😕</div><h3>Сериал не найден</h3></div>`;
+                homeGrid.style.display = 'none';
+                seriesDetailContainer.style.display = 'block';
                 return;
             }
 
             const posterUrl = s.poster || '';
             const seasonIds = s.seasons ? Object.keys(s.seasons) : [];
-            // Сортируем сезоны по номеру
             seasonIds.sort((a, b) => {
                 const na = s.seasons[a]?.seasonNumber || 0;
                 const nb = s.seasons[b]?.seasonNumber || 0;
@@ -1027,30 +1205,26 @@
             });
 
             let html = `
-            <div class="series-detail-hero">
-              <div class="poster-large">
-                ${posterUrl ? `<img src="${posterUrl}" alt="${s.title}" onerror="this.parentElement.innerHTML='🎬'">` : '🎬'}
-              </div>
-              <div class="info">
-                <h2>${escapeHtml(s.title || 'Без названия')}</h2>
-                <div class="desc">${escapeHtml(s.description || '')}</div>
-                <div class="meta">
-                  <span>📺 ${seasonIds.length} сезонов</span>
-                  <span>🎬 ${countEpisodes(s)} серий</span>
+                <div class="series-detail-hero glass-card">
+                    <div class="poster-large">
+                        ${posterUrl ? `<img src="${posterUrl}" alt="${s.title}" onerror="this.parentElement.innerHTML='🎬'">` : '🎬'}
+                    </div>
+                    <div class="info">
+                        <h2>${escapeHtml(s.title || 'Без названия')}</h2>
+                        <div class="desc">${escapeHtml(s.description || '')}</div>
+                        <div class="meta">
+                            <span>📺 ${seasonIds.length} сезонов</span>
+                            <span>🎬 ${countEpisodes(s)} серий</span>
+                        </div>
+                        <button class="back-btn" id="detailBackBtn" style="margin-top:12px;">← Назад к списку</button>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div id="seasonsContainer">
-          `;
+                <div id="seasonsContainer">
+            `;
 
             if (seasonIds.length === 0) {
-                html += `
-              <div class="empty-state" style="padding:30px 0;">
-                <div class="icon">📺</div>
-                <h3>Нет сезонов</h3>
-                <p>Скоро появятся новые серии!</p>
-              </div>
-            `;
+                html +=
+                    `<div class="empty-state" style="padding:30px 0;"><div class="icon">📺</div><h3>Нет сезонов</h3><p>Скоро появятся новые серии!</p></div>`;
             } else {
                 for (const sid of seasonIds) {
                     const season = s.seasons[sid];
@@ -1061,60 +1235,98 @@
                         return ea - eb;
                     });
 
+                    let hasIcon = false;
+                    for (const eid of epIds) {
+                        if (season.episodes[eid]?.icon) {
+                            hasIcon = true;
+                            break;
+                        }
+                    }
+
+                    const isHorizontal = hasIcon && epIds.length > 0;
+
                     html += `
-                <div class="season-block" data-season-id="${sid}">
-                  <div class="season-header">
-                    <h4>${season.seasonNumber ? `Сезон ${season.seasonNumber}` : 'Сезон'}</h4>
-                    <span class="toggle-icon">▼</span>
-                  </div>
-                  <div class="episodes">
-              `;
+                        <div class="season-block" data-season-id="${sid}">
+                            <div class="season-header" style="${isHorizontal ? 'cursor:default;' : ''}">
+                                <h4>${season.seasonNumber ? `Сезон ${season.seasonNumber}` : 'Сезон'}</h4>
+                                ${!isHorizontal ? `<span class="toggle-icon">▼</span>` : ''}
+                            </div>
+                            <div class="${isHorizontal ? 'episodes-horizontal' : 'episodes-vertical'} ${!isHorizontal ? 'open' : ''}">
+                    `;
 
                     if (epIds.length === 0) {
-                        html += `<div style="padding:12px 20px;color:#6a5a4a;font-size:14px;">Нет серий</div>`;
+                        html += `<div style="padding:12px 20px;color:#6a5a70;font-size:14px;">Нет серий</div>`;
+                    } else if (isHorizontal) {
+                        for (const eid of epIds) {
+                            const ep = season.episodes[eid];
+                            html += `
+                                <div class="episode-horizontal-item" data-episode-id="${eid}" data-season-id="${sid}" data-series-id="${seriesId}">
+                                    <div class="icon">
+                                        ${ep.icon ? `<img src="${ep.icon}" alt="${ep.title}" loading="lazy" />` : `<div style="background:rgba(228,0,253,0.1);width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;">🎬</div>`}
+                                    </div>
+                                    <div class="num">${ep.episodeNumber || '?'}</div>
+                                    <div class="title">${escapeHtml(ep.title || 'Без названия')}</div>
+                                </div>
+                            `;
+                        }
                     } else {
                         for (const eid of epIds) {
                             const ep = season.episodes[eid];
                             html += `
-                    <div class="episode-item" data-episode-id="${eid}" data-season-id="${sid}" data-series-id="${seriesId}">
-                      <span class="num">${ep.episodeNumber || '?'}</span>
-                      <div class="info">
-                        <div class="title">${escapeHtml(ep.title || 'Без названия')}</div>
-                        ${ep.description ? `<div class="desc">${escapeHtml(ep.description)}</div>` : ''}
-                      </div>
-                      ${ep.duration ? `<span class="duration">${escapeHtml(ep.duration)}</span>` : ''}
-                      <button class="play-btn">▶ Смотреть</button>
-                    </div>
-                  `;
+                                <div class="episode-item" data-episode-id="${eid}" data-season-id="${sid}" data-series-id="${seriesId}">
+                                    <span class="num">${ep.episodeNumber || '?'}</span>
+                                    <div class="info">
+                                        <div class="title">${escapeHtml(ep.title || 'Без названия')}</div>
+                                        ${ep.description ? `<div class="desc">${escapeHtml(ep.description)}</div>` : ''}
+                                    </div>
+                                    ${ep.duration ? `<span class="duration">${escapeHtml(ep.duration)}</span>` : ''}
+                                    <button class="play-btn">▶ Смотреть</button>
+                                </div>
+                            `;
                         }
                     }
 
                     html += `
-                  </div>
-                </div>
-              `;
+                            </div>
+                        </div>
+                    `;
                 }
             }
 
             html += `</div>`;
             seriesDetailContainer.innerHTML = html;
+            homeGrid.style.display = 'none';
+            seriesDetailContainer.style.display = 'block';
 
-            // Toggle seasons
-            seriesDetailContainer.querySelectorAll('.season-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const block = header.closest('.season-block');
-                    const episodes = block.querySelector('.episodes');
-                    const icon = header.querySelector('.toggle-icon');
-                    episodes.classList.toggle('open');
-                    icon.classList.toggle('open');
-                });
-                // Auto-open first season
-                if (header.closest('.season-block') === seriesDetailContainer.querySelector('.season-block')) {
-                    header.click();
+            document.getElementById('detailBackBtn')?.addEventListener('click', () => {
+                navigateTo('series');
+            });
+
+            seriesDetailContainer.querySelectorAll('.season-block').forEach(block => {
+                const header = block.querySelector('.season-header');
+                const episodes = block.querySelector('.episodes-vertical');
+                const icon = header?.querySelector('.toggle-icon');
+                if (episodes && icon) {
+                    if (block === seriesDetailContainer.querySelector('.season-block')) {
+                        episodes.classList.add('open');
+                        icon.classList.add('open');
+                    }
+                    header.addEventListener('click', () => {
+                        episodes.classList.toggle('open');
+                        icon.classList.toggle('open');
+                    });
                 }
             });
 
-            // Click play on episode
+            seriesDetailContainer.querySelectorAll('.episode-horizontal-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const seriesId = item.dataset.seriesId;
+                    const seasonId = item.dataset.seasonId;
+                    const episodeId = item.dataset.episodeId;
+                    navigateTo('player', { seriesId, seasonId, episodeId });
+                });
+            });
+
             seriesDetailContainer.querySelectorAll('.episode-item .play-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -1125,8 +1337,6 @@
                     navigateTo('player', { seriesId, seasonId, episodeId });
                 });
             });
-
-            // Click on episode item (not button) also play
             seriesDetailContainer.querySelectorAll('.episode-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     if (e.target.closest('.play-btn')) return;
@@ -1149,47 +1359,51 @@
             return count;
         }
 
-        // ============================================================
-        //  UTILITY: detect VK video URL and build embed iframe
-        // ============================================================
-        function isVkVideoUrl(url) {
-            if (!url) return false;
-            return /vkvideo\.ru\/video/i.test(url) || /vk\.com\/video/i.test(url);
+        // ===== PLAYER DETECTION =====
+        function detectPlayerType(url) {
+            if (!url) return 'none';
+            if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
+            if (url.includes('rutube.ru')) return 'rutube';
+            if (url.includes('vkvideo.ru') || url.includes('vk.com/video')) return 'vk';
+            if (url.includes('t.me') || url.includes('telegram.org')) return 'telegram';
+            if (url.match(/\.(mp4|webm|ogg|mov|avi|mkv)$/i)) return 'direct';
+            return 'iframe';
         }
 
-        function buildVkEmbedUrl(url) {
-            // Пример: https://vkvideo.ru/video-227316213_456239043
-            // или https://vk.com/video-227316213_456239043
-            // Парсим oid и id
-            let oid = null;
-            let id = null;
-
-            // Пробуем извлечь из URL
-            const match = url.match(/video-?(\d+)_(\d+)/);
-            if (match) {
-                oid = '-' + match[1];
-                id = match[2];
-            } else {
-                // Пробуем другой паттерн
-                const match2 = url.match(/video(\d+)_(\d+)/);
-                if (match2) {
-                    oid = match2[1];
-                    id = match2[2];
+        function getEmbedUrl(url, type) {
+            switch (type) {
+                case 'youtube': {
+                    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#]+)/);
+                    if (match) {
+                        return `https://www.youtube.com/embed/${match[1]}?autoplay=1&rel=0`;
+                    }
+                    return url;
                 }
+                case 'rutube': {
+                    const match = url.match(/rutube\.ru\/video\/([a-f0-9]+)/);
+                    if (match) {
+                        return `https://rutube.ru/embed/${match[1]}/?autoplay=1`;
+                    }
+                    return url;
+                }
+                case 'vk': {
+                    const match = url.match(/video-?(\d+)_(\d+)/);
+                    if (match) {
+                        const oid = '-' + match[1];
+                        const id = match[2];
+                        return `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2&autoplay=1`;
+                    }
+                    return url;
+                }
+                case 'telegram': {
+                    return url;
+                }
+                default:
+                    return url;
             }
-
-            if (!oid || !id) {
-                // Если не удалось распарсить, пробуем использовать URL как есть
-                return url;
-            }
-
-            // Формируем iframe src для VK Video
-            return `https://vk.com/video_ext.php?oid=${oid}&id=${id}&hd=2`;
         }
 
-        // ============================================================
-        //  RENDER: PLAYER (with VK support)
-        // ============================================================
+        // ===== RENDER PLAYER (FIXED) =====
         function renderPlayer(data) {
             const { seriesId, seasonId, episodeId } = data;
             const series = state.series[seriesId];
@@ -1208,84 +1422,186 @@
                 return;
             }
 
-            const videoUrl = episode.videoUrl || '';
             const title = episode.title || 'Без названия';
             const seriesTitle = series.title || 'Сериал';
             const seasonNum = season.seasonNumber || '';
 
-            let playerHtml = '';
+            // Collect all players
+            const players = [];
+            if (episode.videoUrl) {
+                players.push({
+                    label: 'Основной',
+                    url: episode.videoUrl,
+                    isMain: true,
+                    subtitle: episode.videoSubtitle || ''
+                });
+            }
+            if (episode.additionalPlayers && Array.isArray(episode.additionalPlayers)) {
+                episode.additionalPlayers.forEach((p, idx) => {
+                    if (p.url) {
+                        players.push({
+                            label: p.label || `Версия ${idx + 1}`,
+                            url: p.url,
+                            isMain: false,
+                            subtitle: p.subtitle || '',
+                        });
+                    }
+                });
+            }
 
-            // Определяем, является ли ссылка видео ВК
-            if (isVkVideoUrl(videoUrl)) {
-                const embedSrc = buildVkEmbedUrl(videoUrl);
+            // Qualities (only for main player)
+            const qualities = [];
+            if (episode.qualities && Array.isArray(episode.qualities)) {
+                episode.qualities.forEach(q => {
+                    if (q.url && q.label) {
+                        qualities.push({ label: q.label, url: q.url });
+                    }
+                });
+            }
+            // If no qualities, add auto from main player
+            if (qualities.length === 0 && episode.videoUrl) {
+                qualities.push({ label: 'auto', url: episode.videoUrl });
+            }
+
+            if (players.length === 0) {
+                playerContainer.innerHTML = `
+                    <div class="player-wrapper">
+                        <div style="aspect-ratio:16/9;background:#0a0a16;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#6a5a70;">
+                            <div style="font-size:64px;">🎬</div>
+                            <p>Видео недоступно</p>
+                        </div>
+                        <div class="player-info">
+                            <h3>${escapeHtml(title)}</h3>
+                            <div class="sub">${escapeHtml(seriesTitle)} ${seasonNum ? `· Сезон ${seasonNum}` : ''}</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Ensure current index is valid
+            if (state.currentPlayerIndex >= players.length) state.currentPlayerIndex = 0;
+            const currentPlayer = players[state.currentPlayerIndex] || players[0];
+
+            // Determine which URL to use:
+            let finalUrl = currentPlayer.url;
+            // If main player and qualities exist, use quality selection
+            if (currentPlayer.isMain && qualities.length > 0) {
+                const q = qualities.find(q => q.label === state.currentQuality) || qualities[0];
+                if (q) finalUrl = q.url;
+            }
+            // For non-main players, we ignore qualities and use their own url
+
+            const playerType = detectPlayerType(finalUrl);
+            const embedUrl = getEmbedUrl(finalUrl, playerType);
+
+            let playerHtml = '';
+            if (playerType === 'direct') {
                 playerHtml = `
-                    <div class="vk-iframe-wrapper">
-                        <iframe src="${embedSrc}"
-                            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
-                            frameborder="0"
-                            allowfullscreen>
-                        </iframe>
+                    <video controls autoplay playsinline preload="metadata">
+                        <source src="${finalUrl}" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                `;
+            } else if (playerType === 'telegram') {
+                playerHtml = `
+                    <div style="aspect-ratio:16/9;background:#0a0a16;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#6a5a70;padding:20px;">
+                        <div style="font-size:48px;">📱</div>
+                        <p>Видео из Telegram</p>
+                        <a href="${finalUrl}" target="_blank" style="color:#e400fd;text-decoration:underline;">Открыть в Telegram</a>
                     </div>
                 `;
             } else {
-                // Обычное видео через тег <video>
                 playerHtml = `
-                    ${videoUrl ? `
-                        <video controls autoplay playsinline preload="metadata">
-                            <source src="${videoUrl}" type="video/mp4">
-                            Ваш браузер не поддерживает видео.
-                        </video>
-                    ` : `
-                        <div style="aspect-ratio:16/9;background:#0a0a16;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#6a5a4a;">
-                            <div style="font-size:64px;">🎬</div>
-                            <p>Видео пока недоступно</p>
-                            <p style="font-size:13px;">Файл: ${escapeHtml(videoUrl || 'не указан')}</p>
-                        </div>
-                    `}
+                    <div class="iframe-wrapper">
+                        <iframe src="${embedUrl}" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen></iframe>
+                    </div>
                 `;
+            }
+
+            let controlsHtml = '';
+
+            // Player version buttons
+            if (players.length > 1) {
+                controlsHtml += `<span class="label">Версии:</span>`;
+                players.forEach((p, idx) => {
+                    controlsHtml += `
+                        <button class="player-btn ${idx === state.currentPlayerIndex ? 'active' : ''}" onclick="switchPlayer(${idx})">
+                            ${escapeHtml(p.label)}
+                        </button>
+                    `;
+                });
+            }
+
+            // Quality buttons (only if main player selected and qualities > 1)
+            if (currentPlayer.isMain && qualities.length > 1) {
+                controlsHtml += `<span class="label">Качество:</span>`;
+                qualities.forEach(q => {
+                    controlsHtml += `
+                        <button class="player-btn ${q.label === state.currentQuality ? 'active' : ''}" onclick="switchQuality('${q.label}')">
+                            ${escapeHtml(q.label)}
+                        </button>
+                    `;
+                });
             }
 
             let html = `
                 <div class="player-wrapper">
                     ${playerHtml}
+                    ${controlsHtml ? `<div class="player-controls">${controlsHtml}</div>` : ''}
                     <div class="player-info">
                         <h3>${escapeHtml(title)}</h3>
                         <div class="sub">${escapeHtml(seriesTitle)} ${seasonNum ? `· Сезон ${seasonNum}` : ''}</div>
-                        ${episode.description ? `<div style="color:#a89988;margin-top:8px;font-size:15px;">${escapeHtml(episode.description)}</div>` : ''}
-                        ${isVkVideoUrl(videoUrl) ? `<div style="color:#6a5a4a;font-size:12px;margin-top:4px;">🎥 Видео из ВКонтакте</div>` : ''}
+                        ${currentPlayer.subtitle ? `<div style="color:#b0a0b8;font-size:14px;margin-top:4px;">${escapeHtml(currentPlayer.subtitle)}</div>` : ''}
+                        ${episode.description ? `<div style="color:#b0a0b8;margin-top:8px;font-size:15px;">${escapeHtml(episode.description)}</div>` : ''}
+                        ${playerType !== 'direct' && playerType !== 'none' ? `<div style="color:#6a5a70;font-size:12px;margin-top:4px;">🎥 ${playerType.toUpperCase()}</div>` : ''}
                     </div>
                 </div>
             `;
 
             playerContainer.innerHTML = html;
 
-            // Auto-play для обычного видео
             const video = playerContainer.querySelector('video');
             if (video) {
                 video.addEventListener('loadedmetadata', () => {
                     video.play().catch(() => {});
                 });
             }
+
+            // Save state for switching
+            state._players = players;
+            state._qualities = qualities;
+            state._episodeData = { seriesId, seasonId, episodeId };
         }
 
-        // ============================================================
-        //  RENDER: PEDIA LIST
-        // ============================================================
+        // ===== SWITCH PLAYER =====
+        window.switchPlayer = function(index) {
+            state.currentPlayerIndex = index;
+            const data = state._episodeData;
+            if (data) {
+                renderPlayer(data);
+            }
+        };
+
+        // ===== SWITCH QUALITY =====
+        window.switchQuality = function(label) {
+            state.currentQuality = label;
+            const data = state._episodeData;
+            if (data) {
+                renderPlayer(data);
+            }
+        };
+
+        // ===== PEDIA =====
         function renderPediaList() {
             const ids = Object.keys(state.articles);
             if (ids.length === 0) {
-                pediaList.innerHTML = `
-              <div class="empty-state" style="grid-column:1/-1">
-                <div class="icon">📚</div>
-                <h3>Статей пока нет</h3>
-                <p>Скоро в Drumik-педии появятся первые материалы!</p>
-              </div>
-            `;
+                pediaList.innerHTML =
+                    `<div class="empty-state" style="grid-column:1/-1"><div class="icon">📚</div><h3>Статей пока нет</h3><p>Скоро в Drumik-педии появятся первые материалы!</p></div>`;
                 pediaDetail.style.display = 'none';
                 return;
             }
 
-            // Sort by createdAt desc
             ids.sort((a, b) => {
                 const da = state.articles[a].createdAt || 0;
                 const db = state.articles[b].createdAt || 0;
@@ -1297,18 +1613,17 @@
                 const art = state.articles[id];
                 const date = art.createdAt ? new Date(art.createdAt).toLocaleDateString('ru-RU') : '';
                 html += `
-              <div class="pedia-card" data-id="${id}">
-                <div class="cat">${escapeHtml(art.category || 'Общее')}</div>
-                <h4>${escapeHtml(art.title || 'Без названия')}</h4>
-                <p>${escapeHtml((art.content || '').substring(0, 180))}${(art.content || '').length > 180 ? '…' : ''}</p>
-                ${date ? `<div class="date">📅 ${date}</div>` : ''}
-              </div>
-            `;
+                        <div class="pedia-card" data-id="${id}">
+                            <div class="cat">${escapeHtml(art.category || 'Общее')}</div>
+                            <h4>${escapeHtml(art.title || 'Без названия')}</h4>
+                            <p>${escapeHtml((art.content || '').substring(0, 180))}${(art.content || '').length > 180 ? '…' : ''}</p>
+                            ${date ? `<div class="date">📅 ${date}</div>` : ''}
+                        </div>
+                    `;
             }
             pediaList.innerHTML = html;
             pediaDetail.style.display = 'none';
 
-            // Click -> show detail
             pediaList.querySelectorAll('.pedia-card').forEach(el => {
                 el.addEventListener('click', () => {
                     const id = el.dataset.id;
@@ -1327,20 +1642,22 @@
             const date = art.createdAt ? new Date(art.createdAt).toLocaleDateString('ru-RU') : '';
             const updated = art.updatedAt ? new Date(art.updatedAt).toLocaleDateString('ru-RU') : '';
 
+            const contentHtml = renderPediaContent(art.content || '');
+
             pediaDetail.innerHTML = `
-            <div style="margin-bottom:16px;">
-              <button class="back-btn" id="pediaBackBtn">← Назад к списку</button>
-            </div>
-            <div class="pedia-detail">
-              <div class="cat">${escapeHtml(art.category || 'Общее')}</div>
-              <h2>${escapeHtml(art.title || 'Без названия')}</h2>
-              <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;font-size:13px;color:#6a5a4a;">
-                ${date ? `<span>📅 Опубликовано: ${date}</span>` : ''}
-                ${updated && updated !== date ? `<span>✏️ Обновлено: ${updated}</span>` : ''}
-              </div>
-              <div class="content">${escapeHtml(art.content || '').replace(/\n/g, '<br>')}</div>
-            </div>
-          `;
+                    <div style="margin-bottom:16px;">
+                        <button class="back-btn" id="pediaBackBtn">← Назад к списку</button>
+                    </div>
+                    <div class="pedia-detail">
+                        <div class="cat">${escapeHtml(art.category || 'Общее')}</div>
+                        <h1>${escapeHtml(art.title || 'Без названия')}</h1>
+                        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;font-size:13px;color:#6a5a70;">
+                            ${date ? `<span>📅 Опубликовано: ${date}</span>` : ''}
+                            ${updated && updated !== date ? `<span>✏️ Обновлено: ${updated}</span>` : ''}
+                        </div>
+                        <div class="content">${contentHtml}</div>
+                    </div>
+                `;
             pediaDetail.style.display = 'block';
             pediaList.style.display = 'none';
 
@@ -1349,11 +1666,112 @@
                 pediaList.style.display = 'grid';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+
+            pediaDetail.querySelectorAll('.episode-link').forEach(el => {
+                el.addEventListener('click', () => {
+                    const seriesId = el.dataset.seriesId;
+                    const seasonId = el.dataset.seasonId;
+                    const episodeId = el.dataset.episodeId;
+                    if (seriesId && episodeId) {
+                        navigateTo('player', { seriesId, seasonId, episodeId });
+                    } else if (seriesId) {
+                        navigateTo('series', { seriesId });
+                    }
+                });
+            });
         }
 
-        // ============================================================
-        //  UTILITY
-        // ============================================================
+        function renderPediaContent(content) {
+            if (!content) return '';
+
+            let html = escapeHtml(content);
+
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            html = html.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+            html = html.replace(/^##### (.*$)/gim, '<h5>$1</h5>');
+            html = html.replace(/^###### (.*$)/gim, '<h6>$1</h6>');
+
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            html = html.replace(/__(.*?)__/g, '<u>$1</u>');
+
+            html = html.replace(/\{color:([^}]+)\}(.*?)\{\/color\}/g, '<span style="color:$1;">$2</span>');
+            html = html.replace(/==(.*?)==/g, '<span class="highlight">$1</span>');
+            html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+
+            html = html.replace(/\[эпизод:([^:]+):([^:]*):([^\]]+)\](.*?)\[\/эпизод\]/g,
+                '<span class="episode-link" data-series-id="$1" data-season-id="$2" data-episode-id="$3">$4</span>');
+
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            html = html.replace(/!\[([^\]]*)\]\(([^)]+)(?:\s+align=(\w+))?\)/g,
+                (match, alt, url, align) => {
+                    const alignClass = align ? ` align-${align}` : '';
+                    return `<img src="${url}" alt="${alt}" class="${alignClass}" loading="lazy" />`;
+                });
+
+            html = html.replace(/\{gallery\}(.*?)\{\/gallery\}/g, (match, urls) => {
+                const images = urls.split(',').map(u => u.trim()).filter(u => u);
+                if (images.length === 0) return '';
+                return `<div class="gallery">${images.map(u => `<img src="${u}" loading="lazy" />`).join('')}</div>`;
+            });
+
+            html = html.replace(/\{table\}(.*?)\{\/table\}/gs, (match, tableData) => {
+                try {
+                    const data = JSON.parse(tableData);
+                    if (!data || !data.rows) return '';
+                    let tableHtml = '<table><thead><tr>';
+                    if (data.headers) {
+                        data.headers.forEach(h => {
+                            const rowspan = h.rowspan || 1;
+                            const colspan = h.colspan || 1;
+                            const cls = (rowspan > 1 ? 'rowspan' : '') + (colspan > 1 ? ' colspan' : '');
+                            tableHtml +=
+                                `<th rowspan="${rowspan}" colspan="${colspan}" class="${cls}">${escapeHtml(String(h.text || ''))}</th>`;
+                        });
+                    }
+                    tableHtml += '</tr></thead><tbody>';
+                    data.rows.forEach(row => {
+                        tableHtml += '<tr>';
+                        row.forEach(cell => {
+                            const rowspan = cell.rowspan || 1;
+                            const colspan = cell.colspan || 1;
+                            const cls = (rowspan > 1 ? 'rowspan' : '') + (colspan > 1 ? ' colspan' : '');
+                            tableHtml +=
+                                `<td rowspan="${rowspan}" colspan="${colspan}" class="${cls}">${escapeHtml(String(cell.text || ''))}</td>`;
+                        });
+                        tableHtml += '</tr>';
+                    });
+                    tableHtml += '</tbody></table>';
+                    return tableHtml;
+                } catch (e) {
+                    return `<div style="color:#ff4444;padding:10px;">Ошибка таблицы</div>`;
+                }
+            });
+
+            html = html.replace(/^- (.*$)/gim, '<li>$1</li>');
+            html = html.replace(/((?:<li>.*<\/li>\s*)+)/g, '<ul>$1</ul>');
+            html = html.replace(/^\d+\. (.*$)/gim, '<li>$1</li>');
+            html = html.replace(/((?:<li>.*<\/li>\s*)+)/g, (match) => {
+                if (!match.includes('<ul>')) {
+                    return `<ol>${match}</ol>`;
+                }
+                return match;
+            });
+
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+            html = html.replace(/<p>\s*<\/p>/g, '');
+            html = html.replace(/<p><(h[1-6]|blockquote|ul|ol|table|div|img)/g, '<$1');
+            html = html.replace(/<\/(h[1-6]|blockquote|ul|ol|table|div)><\/p>/g, '</$1>');
+            html = html.replace(/<p><div/g, '<div');
+            html = html.replace(/<\/div><\/p>/g, '</div>');
+
+            return html;
+        }
+
         function escapeHtml(str) {
             if (!str) return '';
             const div = document.createElement('div');
@@ -1361,42 +1779,34 @@
             return div.innerHTML;
         }
 
-        // ============================================================
-        //  INIT
-        // ============================================================
         loadData();
 
-        // Если в URL есть хеш — обработаем
         window.addEventListener('hashchange', () => {
             const hash = location.hash.slice(1);
-            if (hash === 'home') navigateTo('home');
-            else if (hash === 'pedia') navigateTo('pedia');
-            else if (hash === 'series') navigateTo('home');
+            if (hash === 'pedia') navigateTo('pedia');
+            else if (hash === 'series') navigateTo('series');
             else if (hash.startsWith('series/')) {
                 const id = hash.split('/')[1];
                 if (id) navigateTo('series', { seriesId: id });
+            } else {
+                navigateTo('series');
             }
         });
 
-        // Обработка начального хеша
         const initHash = location.hash.slice(1);
         if (initHash === 'pedia') navigateTo('pedia');
         else if (initHash.startsWith('series/')) {
             const id = initHash.split('/')[1];
             if (id) navigateTo('series', { seriesId: id });
         } else {
-            navigateTo('home');
+            navigateTo('series');
         }
 
-        // Для логотипа — если не загрузился, показываем текст
         document.getElementById('logoImg')?.addEventListener('error', function() {
             this.style.display = 'none';
         });
 
-        console.log('🚀 Drumik Studio — пользовательский сайт загружен!');
-        console.log('📺 Данные загружаются из Firebase Realtime Database.');
-        console.log('📚 Для администрирования используйте admin.html');
-        console.log('🎥 Поддерживаются видео из ВКонтакте и обычные MP4.');
+    
     </script>
 </body>
-</html>
+    </html> 
