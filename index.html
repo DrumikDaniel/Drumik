@@ -1211,8 +1211,8 @@
                 <div class="logo-text">Drumik<span>Studio</span></div>
             </div>
             <nav class="nav-links">
-                <a href="#series" class="active" data-view="series">小械褉懈邪谢褘</a>
-                <a href="#pedia" data-view="pedia">Drumik-锌械写懈褟</a>
+                <a href="#series" class="active" data-view="series">Сериалы</a>
+                <a href="#pedia" data-view="pedia">Drumik-педия</a>
             </nav>
         </div>
     </header>
@@ -1223,21 +1223,21 @@
             <!-- VIEW: SERIES (now with mode switch) -->
             <div id="view-series" class="view active">
                 <div class="mode-switch" id="modeSwitch">
-                    <button class="active" data-mode="video">馃幀 袙懈写械芯</button>
-                    <button data-mode="series">馃摵 小械褉懈邪谢褘</button>
+                    <button class="active" data-mode="video">🎬 Видео</button>
+                    <button data-mode="series">📺 Сериалы</button>
                 </div>
 
                 <!-- Video mode -->
                 <div id="videoMode" class="video-mode">
                     <div class="video-controls">
                         <div class="search-box">
-                            <input type="text" id="videoSearch" placeholder="袩芯懈褋泻 褝锌懈蟹芯写芯胁..." />
-                            <button id="searchBtn">馃攳</button>
+                            <input type="text" id="videoSearch" placeholder="Поиск эпизодов..." />
+                            <button id="searchBtn">🔍</button>
                         </div>
                         <select id="sortSelect" class="sort-select">
-                            <option value="popular">猸� 袩芯锌褍谢褟褉薪褘械</option>
-                            <option value="new">馃啎 袧芯胁褘械</option>
-                            <option value="old">馃搮 小褌邪褉褘械</option>
+                            <option value="popular">⭐ Популярные</option>
+                            <option value="new">🆕 Новые</option>
+                            <option value="old">📅 Старые</option>
                         </select>
                     </div>
                     <div id="videoGrid" class="video-grid"></div>
@@ -1252,13 +1252,13 @@
 
             <!-- VIEW: PLAYER -->
             <div id="view-player" class="view">
-                <button class="back-btn" id="playerBackBtn">鈫� 袧邪蟹邪写</button>
+                <button class="back-btn" id="playerBackBtn">← Назад</button>
                 <div id="playerContainer"></div>
             </div>
 
             <!-- VIEW: PEDIA -->
             <div id="view-pedia" class="view">
-                <div class="section-title"><span class="accent"></span> Drumik-锌械写懈褟</div>
+                <div class="section-title"><span class="accent"></span> Drumik-педия</div>
                 <div id="pediaList" class="pedia-grid"></div>
                 <div id="pediaDetail" style="display:none;"></div>
             </div>
@@ -1267,7 +1267,7 @@
     </main>
 
     <footer class="footer">
-        <div class="container">&copy; 2026 Drumik Animation Studio. 袙褋械 锌褉邪胁邪 蟹邪褖懈褖械薪褘.</div>
+        <div class="container">&copy; 2026 Drumik Animation Studio. Все права защищены.</div>
     </footer>
 
     <div class="toast-container" id="toastContainer"></div>
@@ -1348,7 +1348,7 @@
         }
 
         function formatDate(timestamp) {
-            if (!timestamp) return '袘械蟹 写邪褌褘';
+            if (!timestamp) return 'Без даты';
             const d = new Date(timestamp);
             return d.toLocaleDateString('ru-RU', { year: 'numeric', month: 'short', day: 'numeric' });
         }
@@ -1532,7 +1532,7 @@
             const ids = Object.keys(state.series);
             if (ids.length === 0) {
                 homeSeriesGrid.innerHTML =
-                    `<div class="empty-state" style="grid-column:1/-1"><div class="icon">馃帪锔�</div><h3>袩芯泻邪 薪械褌 褋械褉懈邪谢芯胁</h3><p>小泻芯褉芯 蟹写械褋褜 锌芯褟胁褟褌褋褟 薪芯胁褘械 屑褍谢褜褌褎懈谢褜屑褘!</p></div>`;
+                    `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🎞️</div><h3>Пока нет сериалов</h3><p>Скоро здесь появятся новые мультфильмы!</p></div>`;
                 return;
             }
 
@@ -1548,18 +1548,18 @@
                 html += `
                     <div class="series-card" data-id="${id}">
                         <div class="poster">
-                            ${posterUrl ? `<img src="${posterUrl}" alt="${s.title}" loading="lazy" onerror="this.parentElement.innerHTML='馃幀'">` : '馃幀'}
+                            ${posterUrl ? `<img src="${posterUrl}" alt="${s.title}" loading="lazy" onerror="this.parentElement.innerHTML='🎬'">` : '🎬'}
                         </div>
                         <div class="info">
-                            <h3>${escapeHtml(s.title || '袘械蟹 薪邪蟹胁邪薪懈褟')}</h3>
+                            <h3>${escapeHtml(s.title || 'Без названия')}</h3>
                             <p>${escapeHtml(s.description || '')}</p>
                             <div class="series-meta">
-                                ${date ? `<span>馃搮 ${date}</span>` : ''}
-                                <span class="rating">猸� ${rating.toFixed(1)}</span>
-                                <span>馃憗锔� ${views}</span>
+                                ${date ? `<span>📅 ${date}</span>` : ''}
+                                <span class="rating">⭐ ${rating.toFixed(1)}</span>
+                                <span>👁️ ${views}</span>
                             </div>
                         </div>
-                        ${seasonCount > 0 ? `<div class="badge">${seasonCount} 褋械蟹芯薪邪</div>` : ''}
+                        ${seasonCount > 0 ? `<div class="badge">${seasonCount} сезона</div>` : ''}
                     </div>
                 `;
             }
@@ -1592,10 +1592,10 @@
                             id: episodeId,
                             seriesId: seriesId,
                             seasonId: seasonId,
-                            seriesTitle: series.title || '袘械蟹 薪邪蟹胁邪薪懈褟',
+                            seriesTitle: series.title || 'Без названия',
                             seasonNumber: season.seasonNumber || 0,
                             episodeNumber: ep.episodeNumber || 0,
-                            title: ep.title || '袘械蟹 薪邪蟹胁邪薪懈褟',
+                            title: ep.title || 'Без названия',
                             description: ep.description || '',
                             icon: ep.icon || '',
                             date: ep.date || series.date || 0,
@@ -1632,7 +1632,7 @@
 
             if (filtered.length === 0) {
                 videoGrid.innerHTML =
-                    `<div class="empty-state" style="grid-column:1/-1"><div class="icon">馃攳</div><h3>袧懈褔械谐芯 薪械 薪邪泄写械薪芯</h3><p>袩芯锌褉芯斜褍泄褌械 懈蟹屑械薪懈褌褜 锌芯懈褋泻</p></div>`;
+                    `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🔍</div><h3>Ничего не найдено</h3><p>Попробуйте изменить поиск</p></div>`;
                 return;
             }
 
@@ -1644,18 +1644,18 @@
                 html += `
                     <div class="video-card" data-series="${ep.seriesId}" data-season="${ep.seasonId}" data-episode="${ep.id}">
                         <div class="thumbnail">
-                            ${thumb ? `<img src="${thumb}" alt="${ep.title}" loading="lazy" />` : '馃幀'}
+                            ${thumb ? `<img src="${thumb}" alt="${ep.title}" loading="lazy" />` : '🎬'}
                         </div>
                         <div class="video-info">
                             <div class="title">${escapeHtml(ep.title)}</div>
                             <div class="meta">
                                 <span class="series-name">${escapeHtml(ep.seriesTitle)}</span>
-                                <span>${ep.seasonNumber ? `小械蟹芯薪 ${ep.seasonNumber}` : ''} 鈥� ${ep.episodeNumber ? `小械褉懈褟 ${ep.episodeNumber}` : ''}</span>
+                                <span>${ep.seasonNumber ? `Сезон ${ep.seasonNumber}` : ''} • ${ep.episodeNumber ? `Серия ${ep.episodeNumber}` : ''}</span>
                             </div>
                             <div class="meta">
-                                <span class="rating">猸� ${rating.toFixed(1)}</span>
-                                <span class="views">馃憗锔� ${ep.views || 0}</span>
-                                ${date ? `<span>馃搮 ${date}</span>` : ''}
+                                <span class="rating">⭐ ${rating.toFixed(1)}</span>
+                                <span class="views">👁️ ${ep.views || 0}</span>
+                                ${date ? `<span>📅 ${date}</span>` : ''}
                             </div>
                         </div>
                     </div>
@@ -1685,7 +1685,7 @@
             for (let i = 1; i <= 5; i++) {
                 const star = document.createElement('span');
                 star.className = 'star' + (i <= Math.round(currentRating) ? ' active' : '');
-                star.textContent = '鈽�';
+                star.textContent = '★';
                 star.dataset.value = i;
                 if (!rated) {
                     star.style.cursor = 'pointer';
@@ -1715,7 +1715,7 @@
             const s = state.series[seriesId];
             if (!s) {
                 seriesDetailContainer.innerHTML =
-                    `<div class="empty-state"><div class="icon">馃槙</div><h3>小械褉懈邪谢 薪械 薪邪泄写械薪</h3></div>`;
+                    `<div class="empty-state"><div class="icon">😕</div><h3>Сериал не найден</h3></div>`;
                 homeSeriesGrid.style.display = 'none';
                 seriesDetailContainer.style.display = 'block';
                 return;
@@ -1736,24 +1736,24 @@
             let html = `
                 <div class="series-detail-hero glass-card">
                     <div class="poster-large">
-                        ${posterUrl ? `<img src="${posterUrl}" alt="${s.title}" onerror="this.parentElement.innerHTML='馃幀'">` : '馃幀'}
+                        ${posterUrl ? `<img src="${posterUrl}" alt="${s.title}" onerror="this.parentElement.innerHTML='🎬'">` : '🎬'}
                     </div>
                     <div class="info">
-                        <h2>${escapeHtml(s.title || '袘械蟹 薪邪蟹胁邪薪懈褟')}</h2>
+                        <h2>${escapeHtml(s.title || 'Без названия')}</h2>
                         <div class="desc">${escapeHtml(s.description || '')}</div>
                         <div class="meta">
-                            <span>馃摵 ${seasonIds.length} 褋械蟹芯薪芯胁</span>
-                            <span>馃幀 ${countEpisodes(s)} 褋械褉懈泄</span>
-                            ${date ? `<span>馃搮 ${date}</span>` : ''}
-                            <span>馃憗锔� ${views}</span>
+                            <span>📺 ${seasonIds.length} сезонов</span>
+                            <span>🎬 ${countEpisodes(s)} серий</span>
+                            ${date ? `<span>📅 ${date}</span>` : ''}
+                            <span>👁️ ${views}</span>
                         </div>
                         <div class="rating-block">
                             <div class="stars" data-rate-id="series_${seriesId}">
                                 ${renderStarsHtml(rating, `series_${seriesId}`)}
                             </div>
-                            <span class="rating-text">${rating.toFixed(1)} (${s.rating?.count || 0} 谐芯谢芯褋芯胁)</span>
+                            <span class="rating-text">${rating.toFixed(1)} (${s.rating?.count || 0} голосов)</span>
                         </div>
-                        <button class="back-btn" id="detailBackBtn" style="margin-top:12px;">鈫� 袧邪蟹邪写 泻 褋锌懈褋泻褍</button>
+                        <button class="back-btn" id="detailBackBtn" style="margin-top:12px;">← Назад к списку</button>
                     </div>
                 </div>
                 <div id="seasonsContainer">
@@ -1761,7 +1761,7 @@
 
             if (seasonIds.length === 0) {
                 html +=
-                    `<div class="empty-state" style="padding:30px 0;"><div class="icon">馃摵</div><h3>袧械褌 褋械蟹芯薪芯胁</h3><p>小泻芯褉芯 锌芯褟胁褟褌褋褟 薪芯胁褘械 褋械褉懈懈!</p></div>`;
+                    `<div class="empty-state" style="padding:30px 0;"><div class="icon">📺</div><h3>Нет сезонов</h3><p>Скоро появятся новые серии!</p></div>`;
             } else {
                 for (const sid of seasonIds) {
                     const season = s.seasons[sid];
@@ -1785,14 +1785,14 @@
                     html += `
                         <div class="season-block" data-season-id="${sid}">
                             <div class="season-header" style="${isHorizontal ? 'cursor:default;' : ''}">
-                                <h4>${season.seasonNumber ? `小械蟹芯薪 ${season.seasonNumber}` : '小械蟹芯薪'}</h4>
-                                ${!isHorizontal ? `<span class="toggle-icon">鈻�</span>` : ''}
+                                <h4>${season.seasonNumber ? `Сезон ${season.seasonNumber}` : 'Сезон'}</h4>
+                                ${!isHorizontal ? `<span class="toggle-icon">▼</span>` : ''}
                             </div>
                             <div class="${isHorizontal ? 'episodes-horizontal' : 'episodes-vertical'} ${!isHorizontal ? 'open' : ''}">
                     `;
 
                     if (epIds.length === 0) {
-                        html += `<div style="padding:12px 20px;color:#6a5a70;font-size:14px;">袧械褌 褋械褉懈泄</div>`;
+                        html += `<div style="padding:12px 20px;color:#6a5a70;font-size:14px;">Нет серий</div>`;
                     } else if (isHorizontal) {
                         for (const eid of epIds) {
                             const ep = season.episodes[eid];
@@ -1800,11 +1800,11 @@
                             html += `
                                 <div class="episode-horizontal-item" data-episode-id="${eid}" data-season-id="${sid}" data-series-id="${seriesId}">
                                     <div class="icon">
-                                        ${ep.icon ? `<img src="${ep.icon}" alt="${ep.title}" loading="lazy" />` : `<div style="background:rgba(228,0,253,0.1);width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;">馃幀</div>`}
+                                        ${ep.icon ? `<img src="${ep.icon}" alt="${ep.title}" loading="lazy" />` : `<div style="background:rgba(228,0,253,0.1);width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;">🎬</div>`}
                                     </div>
                                     <div class="num">${ep.episodeNumber || '?'}</div>
-                                    <div class="title">${escapeHtml(ep.title || '袘械蟹 薪邪蟹胁邪薪懈褟')}</div>
-                                    <div style="font-size:11px;color:#f7c948;">猸� ${epRating.toFixed(1)}</div>
+                                    <div class="title">${escapeHtml(ep.title || 'Без названия')}</div>
+                                    <div style="font-size:11px;color:#f7c948;">⭐ ${epRating.toFixed(1)}</div>
                                 </div>
                             `;
                         }
@@ -1818,16 +1818,16 @@
                                 <div class="episode-item" data-episode-id="${eid}" data-season-id="${sid}" data-series-id="${seriesId}">
                                     <span class="num">${ep.episodeNumber || '?'}</span>
                                     <div class="info">
-                                        <div class="title">${escapeHtml(ep.title || '袘械蟹 薪邪蟹胁邪薪懈褟')}</div>
+                                        <div class="title">${escapeHtml(ep.title || 'Без названия')}</div>
                                         ${ep.description ? `<div class="desc">${escapeHtml(ep.description)}</div>` : ''}
                                         <div class="episode-meta">
-                                            <span>猸� ${epRating.toFixed(1)}</span>
-                                            <span>馃憗锔� ${epViews}</span>
-                                            ${epDate ? `<span>馃搮 ${epDate}</span>` : ''}
+                                            <span>⭐ ${epRating.toFixed(1)}</span>
+                                            <span>👁️ ${epViews}</span>
+                                            ${epDate ? `<span>📅 ${epDate}</span>` : ''}
                                         </div>
                                     </div>
                                     ${ep.duration ? `<span class="duration">${escapeHtml(ep.duration)}</span>` : ''}
-                                    <button class="play-btn">鈻� 小屑芯褌褉械褌褜</button>
+                                    <button class="play-btn">▶ Смотреть</button>
                                 </div>
                             `;
                         }
@@ -1912,7 +1912,7 @@
             for (let i = 1; i <= 5; i++) {
                 const active = i <= Math.round(rating) ? ' active' : '';
                 const cursor = rated ? '' : ' style="cursor:pointer;"';
-                html += `<span class="star${active}" data-value="${i}"${cursor}>鈽�</span>`;
+                html += `<span class="star${active}" data-value="${i}"${cursor}>★</span>`;
             }
             return html;
         }
@@ -1925,10 +1925,10 @@
                 return { sum: current.sum + value, count: current.count + 1 };
             }).then(() => {
                 markRated('series_' + seriesId);
-                showToast('袨褑械薪泻邪 锌芯褋褌邪胁谢械薪邪!', 'success');
+                showToast('Оценка поставлена!', 'success');
                 // Re-render detail
                 renderSeriesDetail(seriesId);
-            }).catch(err => showToast('袨褕懈斜泻邪: ' + err.message, 'error'));
+            }).catch(err => showToast('Ошибка: ' + err.message, 'error'));
         }
 
         function rateEpisode(seriesId, seasonId, episodeId, value) {
@@ -1938,10 +1938,10 @@
                 return { sum: current.sum + value, count: current.count + 1 };
             }).then(() => {
                 markRated('episode_' + episodeId);
-                showToast('袨褑械薪泻邪 锌芯褋褌邪胁谢械薪邪!', 'success');
+                showToast('Оценка поставлена!', 'success');
                 // Re-render detail
                 renderSeriesDetail(seriesId);
-            }).catch(err => showToast('袨褕懈斜泻邪: ' + err.message, 'error'));
+            }).catch(err => showToast('Ошибка: ' + err.message, 'error'));
         }
 
         // ===== COUNT EPISODES =====
@@ -2004,17 +2004,17 @@
             const { seriesId, seasonId, episodeId } = data;
             const series = state.series[seriesId];
             if (!series) {
-                playerContainer.innerHTML = `<div class="empty-state"><h3>小械褉懈邪谢 薪械 薪邪泄写械薪</h3></div>`;
+                playerContainer.innerHTML = `<div class="empty-state"><h3>Сериал не найден</h3></div>`;
                 return;
             }
             const season = series.seasons?.[seasonId];
             if (!season) {
-                playerContainer.innerHTML = `<div class="empty-state"><h3>小械蟹芯薪 薪械 薪邪泄写械薪</h3></div>`;
+                playerContainer.innerHTML = `<div class="empty-state"><h3>Сезон не найден</h3></div>`;
                 return;
             }
             const episode = season.episodes?.[episodeId];
             if (!episode) {
-                playerContainer.innerHTML = `<div class="empty-state"><h3>小械褉懈褟 薪械 薪邪泄写械薪邪</h3></div>`;
+                playerContainer.innerHTML = `<div class="empty-state"><h3>Серия не найдена</h3></div>`;
                 return;
             }
 
@@ -2031,15 +2031,15 @@
                 });
             }
 
-            const title = episode.title || '袘械蟹 薪邪蟹胁邪薪懈褟';
-            const seriesTitle = series.title || '小械褉懈邪谢';
+            const title = episode.title || 'Без названия';
+            const seriesTitle = series.title || 'Сериал';
             const seasonNum = season.seasonNumber || '';
 
             // Collect players
             const players = [];
             if (episode.videoUrl) {
                 players.push({
-                    label: '袨褋薪芯胁薪芯泄',
+                    label: 'Основной',
                     url: episode.videoUrl,
                     isMain: true,
                     subtitle: episode.videoSubtitle || ''
@@ -2049,7 +2049,7 @@
                 episode.additionalPlayers.forEach((p, idx) => {
                     if (p.url) {
                         players.push({
-                            label: p.label || `袙械褉褋懈褟 ${idx + 1}`,
+                            label: p.label || `Версия ${idx + 1}`,
                             url: p.url,
                             isMain: false,
                             subtitle: p.subtitle || '',
@@ -2074,12 +2074,12 @@
                 playerContainer.innerHTML = `
                     <div class="player-wrapper">
                         <div style="aspect-ratio:16/9;background:#0a0a16;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#6a5a70;">
-                            <div style="font-size:64px;">馃幀</div>
-                            <p>袙懈写械芯 薪械写芯褋褌褍锌薪芯</p>
+                            <div style="font-size:64px;">🎬</div>
+                            <p>Видео недоступно</p>
                         </div>
                         <div class="player-info">
                             <h3>${escapeHtml(title)}</h3>
-                            <div class="sub">${escapeHtml(seriesTitle)} ${seasonNum ? `路 小械蟹芯薪 ${seasonNum}` : ''}</div>
+                            <div class="sub">${escapeHtml(seriesTitle)} ${seasonNum ? `· Сезон ${seasonNum}` : ''}</div>
                         </div>
                     </div>
                 `;
@@ -2103,15 +2103,15 @@
                 playerHtml = `
                     <video controls autoplay playsinline preload="metadata">
                         <source src="${finalUrl}" type="video/mp4">
-                        袙邪褕 斜褉邪褍蟹械褉 薪械 锌芯写写械褉卸懈胁邪械褌 胁懈写械芯.
+                        Ваш браузер не поддерживает видео.
                     </video>
                 `;
             } else if (playerType === 'telegram') {
                 playerHtml = `
                     <div style="aspect-ratio:16/9;background:#0a0a16;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#6a5a70;padding:20px;">
-                        <div style="font-size:48px;">馃摫</div>
-                        <p>袙懈写械芯 懈蟹 Telegram</p>
-                        <a href="${finalUrl}" target="_blank" style="color:#e400fd;text-decoration:underline;">袨褌泻褉褘褌褜 胁 Telegram</a>
+                        <div style="font-size:48px;">📱</div>
+                        <p>Видео из Telegram</p>
+                        <a href="${finalUrl}" target="_blank" style="color:#e400fd;text-decoration:underline;">Открыть в Telegram</a>
                     </div>
                 `;
             } else {
@@ -2125,7 +2125,7 @@
             let controlsHtml = '';
 
             if (players.length > 1) {
-                controlsHtml += `<span class="label">袙械褉褋懈懈:</span>`;
+                controlsHtml += `<span class="label">Версии:</span>`;
                 players.forEach((p, idx) => {
                     controlsHtml += `
                         <button class="player-btn ${idx === state.currentPlayerIndex ? 'active' : ''}" onclick="switchPlayer(${idx})">
@@ -2136,7 +2136,7 @@
             }
 
             if (currentPlayer.isMain && qualities.length > 1) {
-                controlsHtml += `<span class="label">袣邪褔械褋褌胁芯:</span>`;
+                controlsHtml += `<span class="label">Качество:</span>`;
                 qualities.forEach(q => {
                     controlsHtml += `
                         <button class="player-btn ${q.label === state.currentQuality ? 'active' : ''}" onclick="switchQuality('${q.label}')">
@@ -2157,11 +2157,11 @@
                     ${controlsHtml ? `<div class="player-controls">${controlsHtml}</div>` : ''}
                     <div class="player-info">
                         <h3>${escapeHtml(title)}</h3>
-                        <div class="sub">${escapeHtml(seriesTitle)} ${seasonNum ? `路 小械蟹芯薪 ${seasonNum}` : ''}</div>
+                        <div class="sub">${escapeHtml(seriesTitle)} ${seasonNum ? `· Сезон ${seasonNum}` : ''}</div>
                         <div class="player-meta">
-                            <span>猸� ${epRating.toFixed(1)}</span>
-                            <span>馃憗锔� ${epViews}</span>
-                            ${epDate ? `<span>馃搮 ${epDate}</span>` : ''}
+                            <span>⭐ ${epRating.toFixed(1)}</span>
+                            <span>👁️ ${epViews}</span>
+                            ${epDate ? `<span>📅 ${epDate}</span>` : ''}
                         </div>
                         ${currentPlayer.subtitle ? `<div style="color:#b0a0b8;font-size:14px;margin-top:4px;">${escapeHtml(currentPlayer.subtitle)}</div>` : ''}
                         ${episode.description ? `<div style="color:#b0a0b8;margin-top:8px;font-size:15px;">${escapeHtml(episode.description)}</div>` : ''}
@@ -2169,7 +2169,7 @@
                             <div class="stars" data-rate-id="episode_${episodeId}">
                                 ${renderStarsHtml(epRating, `episode_${episodeId}`)}
                             </div>
-                            <span class="rating-text">${epRating.toFixed(1)} (${episode.rating?.count || 0} 谐芯谢芯褋芯胁)</span>
+                            <span class="rating-text">${epRating.toFixed(1)} (${episode.rating?.count || 0} голосов)</span>
                         </div>
                     </div>
                 </div>
@@ -2219,7 +2219,7 @@
             const ids = Object.keys(state.articles);
             if (ids.length === 0) {
                 pediaList.innerHTML =
-                    `<div class="empty-state" style="grid-column:1/-1"><div class="icon">馃摎</div><h3>小褌邪褌械泄 锌芯泻邪 薪械褌</h3><p>小泻芯褉芯 胁 Drumik-锌械写懈懈 锌芯褟胁褟褌褋褟 锌械褉胁褘械 屑邪褌械褉懈邪谢褘!</p></div>`;
+                    `<div class="empty-state" style="grid-column:1/-1"><div class="icon">📚</div><h3>Статей пока нет</h3><p>Скоро в Drumik-педии появятся первые материалы!</p></div>`;
                 pediaDetail.style.display = 'none';
                 return;
             }
@@ -2236,10 +2236,10 @@
                 const date = art.createdAt ? new Date(art.createdAt).toLocaleDateString('ru-RU') : '';
                 html += `
                         <div class="pedia-card" data-id="${id}">
-                            <div class="cat">${escapeHtml(art.category || '袨斜褖械械')}</div>
-                            <h4>${escapeHtml(art.title || '袘械蟹 薪邪蟹胁邪薪懈褟')}</h4>
-                            <p>${escapeHtml((art.content || '').substring(0, 180))}${(art.content || '').length > 180 ? '鈥�' : ''}</p>
-                            ${date ? `<div class="date">馃搮 ${date}</div>` : ''}
+                            <div class="cat">${escapeHtml(art.category || 'Общее')}</div>
+                            <h4>${escapeHtml(art.title || 'Без названия')}</h4>
+                            <p>${escapeHtml((art.content || '').substring(0, 180))}${(art.content || '').length > 180 ? '…' : ''}</p>
+                            ${date ? `<div class="date">📅 ${date}</div>` : ''}
                         </div>
                     `;
             }
@@ -2257,7 +2257,7 @@
         function renderPediaDetail(articleId) {
             const art = state.articles[articleId];
             if (!art) {
-                pediaDetail.innerHTML = `<div class="empty-state"><h3>小褌邪褌褜褟 薪械 薪邪泄写械薪邪</h3></div>`;
+                pediaDetail.innerHTML = `<div class="empty-state"><h3>Статья не найдена</h3></div>`;
                 pediaDetail.style.display = 'block';
                 return;
             }
@@ -2268,14 +2268,14 @@
 
             pediaDetail.innerHTML = `
                     <div style="margin-bottom:16px;">
-                        <button class="back-btn" id="pediaBackBtn">鈫� 袧邪蟹邪写 泻 褋锌懈褋泻褍</button>
+                        <button class="back-btn" id="pediaBackBtn">← Назад к списку</button>
                     </div>
                     <div class="pedia-detail">
-                        <div class="cat">${escapeHtml(art.category || '袨斜褖械械')}</div>
-                        <h1>${escapeHtml(art.title || '袘械蟹 薪邪蟹胁邪薪懈褟')}</h1>
+                        <div class="cat">${escapeHtml(art.category || 'Общее')}</div>
+                        <h1>${escapeHtml(art.title || 'Без названия')}</h1>
                         <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px;font-size:13px;color:#6a5a70;">
-                            ${date ? `<span>馃搮 袨锌褍斜谢懈泻芯胁邪薪芯: ${date}</span>` : ''}
-                            ${updated && updated !== date ? `<span>鉁忥笍 袨斜薪芯胁谢械薪芯: ${updated}</span>` : ''}
+                            ${date ? `<span>📅 Опубликовано: ${date}</span>` : ''}
+                            ${updated && updated !== date ? `<span>✏️ Обновлено: ${updated}</span>` : ''}
                         </div>
                         <div class="content">${contentHtml}</div>
                     </div>
@@ -2323,7 +2323,7 @@
             html = html.replace(/==(.*?)==/g, '<span class="highlight">$1</span>');
             html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
 
-            html = html.replace(/\[褝锌懈蟹芯写:([^:]+):([^:]*):([^\]]+)\](.*?)\[\/褝锌懈蟹芯写\]/g,
+            html = html.replace(/\[эпизод:([^:]+):([^:]*):([^\]]+)\](.*?)\[\/эпизод\]/g,
                 '<span class="episode-link" data-series-id="$1" data-season-id="$2" data-episode-id="$3">$4</span>');
 
             html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
@@ -2369,7 +2369,7 @@
                     tableHtml += '</tbody></table>';
                     return tableHtml;
                 } catch (e) {
-                    return `<div style="color:#ff4444;padding:10px;">袨褕懈斜泻邪 褌邪斜谢懈褑褘</div>`;
+                    return `<div style="color:#ff4444;padding:10px;">Ошибка таблицы</div>`;
                 }
             });
 
@@ -2439,7 +2439,7 @@
             this.style.display = 'none';
         });
 
-        console.log('馃殌 Drumik Studio 褋 褉械泄褌懈薪谐芯屑, 锌褉芯褋屑芯褌褉邪屑懈, 褉械卸懈屑邪屑懈 懈 写邪褌邪屑懈!');
+        console.log('🚀 Drumik Studio с рейтингом, просмотрами, режимами и датами!');
     </script>
 </body>
 </html>
